@@ -44,14 +44,19 @@ function getMovies (req,res){
 }
 function createMovie (req,res){
 
-    var movies = req.swagger.params.movie.value.movie;
-    _.assign(movies,{type: 'movie'});
+    var movies = req.swagger.params.movie.value;
+    _.assign(movies,{type: 'movies'});
 
-    if(_.isUndefined(movies.actors) || _.isUndefined(movies.title) || _.isUndefined(movies.year)
+    var title = req.swagger.params.movie.value.name;
+    Usergrid.GET('movies', title, function(error, usergridResponse){
+        if (error){
+
+
+    if(_.isUndefined(movies.actors) || _.isUndefined(movies.name) || _.isUndefined(movies.year))
          {
 
         res.json({
-            Error: "Is something missing?! Perhaps actors, title, or year.
+            Error: "Is something missing?! Perhaps actors, title, or year"
         });
     }
     else
@@ -69,10 +74,20 @@ function createMovie (req,res){
                         message: 'successful movie creation',
                         movie: response
                     }).end();
+
                 });
             }
         })
-}
+        }
+        else {
+            res.json({
+                message: "Movie title already exists"
+            });
+        }
+    });
+
+
+        }
 function returnMovie (req,res){
 
     var uuid = req.swagger.params.movieId.value;

@@ -144,7 +144,7 @@ definitions:
         properties:
           path:
             type: string
-          sinze:
+          size:
             type: integer
       movies:
         $ref: "#/definitions/Movie"
@@ -159,7 +159,7 @@ definitions:
  #movie object
   Movie:
     required:
-      - title
+      - name
       - year
       - actors
     properties:
@@ -172,7 +172,7 @@ definitions:
       year:
         type: integer
         minimum: 1
-      title:
+      name:
         type: string
   Actor:
     required:
